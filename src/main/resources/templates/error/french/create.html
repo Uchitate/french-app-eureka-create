@@ -1,0 +1,59 @@
+<!DOCTYPE html SYSTEM
+  "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      lang="ja">
+<head>
+  <meta charset="UTF-8"/>
+  <link rel="stylesheet" th:href="@{/webjars/Semantic-UI/2.1.8/semantic.min.css}"/>
+  <link rel="stylesheet" th:href="@{/resources/css/style.css}"/>
+
+  <script th:src="@{/webjars/jquery/2.2.0/jquery.min.js}"></script>
+  <script th:src="@{/webjars/Semantic-UI/2.1.8/semantic.min.js}"></script>
+  <script th:src="@{/resources/lib/jquery.sliphover.min.js}"></script>
+
+  <title>フレンチ新規登録</title>
+  <link rel="stylesheet" href="/static/resources/lib/Semantic-UI/2.1.8/semantic.min.css"/>
+  <script src="/static/resources/lib/jquery.min.js"></script>
+  <script src="/static/resources/lib/Semantic-UI/2.1.8/semantic.min.js"></script>
+</head>
+<body>
+<div class="ui text container">
+  <div colspan="4">
+    <a th:href="@{/logout}"><div class="ui right floated small red labeled icon button"><i class="sign out icon"></i>ログアウト</div></a>
+  </div>
+  <h2 class="ui header aligned blue">新規登録</h2>
+  <form class="ui horizontal form" method="post" th:action="@{/frenches/new}" th:object="${form}">
+    <div class="field" th:classappend="${#fields.hasErrors('name')}? has-error">
+      <label class="ui blue header"><i class="user icon"></i>名前</label>
+      <div class="ui input" th:classappend="${#fields.hasErrors('name')}? 'error'">
+        <input type="text" th:field="*{name}" name="" placeholder="名前" />
+      </div>
+      <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">エラーメッセージ</p>
+    </div>
+    <div class="field" th:classappend="${#fields.hasErrors('password')}? has-error">
+      <label class="ui blue header"><i class="lock icon"></i>パスワード</label>
+      <div class="ui input" th:classappend="${#fields.hasErrors('password')}? 'error'">
+        <input type="password" th:field="*{password}" name="" placeholder="パスワード" />
+      </div>
+      <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}">エラーメッセージ</p>
+    </div>
+    <div class="field" th:classappend="${#fields.hasErrors('email')}? has-error">
+      <label class="ui blue header"><i class="mail icon"></i>メール</label>
+      <div class="ui input" th:classappend="${#fields.hasErrors('email')}? 'error'">
+        <input type="text" th:field="*{email}" name="" placeholder="メール" />
+      </div>
+      <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}">エラーメッセージ</p>
+    </div>
+    <div class="field" th:classappend="${#fields.hasErrors('address')}? has-error">
+      <label class="ui blue header"><i class="coffee icon"></i>住所</label>
+      <div class="ui input" th:classappend="${#fields.hasErrors('address')}? 'error'">
+        <input type="text" th:field="*{address}" name="" placeholder="住所" />
+      </div>
+      <p th:if="${#fields.hasErrors('address')}" th:errors="*{address}">エラーメッセージ</p>
+    </div>
+    <button class="ui primary button" type="submit">保存</button>
+    <a type="button" th:href="@{/users}" class="ui button" tabindex="0">キャンセル</a>
+  </form>
+</div>
+</body>
+</html>
