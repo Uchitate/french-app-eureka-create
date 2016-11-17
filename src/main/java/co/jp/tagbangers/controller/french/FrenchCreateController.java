@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
+
+import javax.servlet.http.HttpServletRequest;
 
 import static java.util.Optional.ofNullable;
 
@@ -35,19 +38,24 @@ public class FrenchCreateController {
 	}
 
 	@PostMapping
-	public String save(
+	public RedirectView save(
 			@Validated @ModelAttribute(FORM_MODEL_KEY) FrenchCreateForm form,
 			BindingResult errors,
+			HttpServletRequest request,
 			RedirectAttributes redirectAttributes) {
 		redirectAttributes.addFlashAttribute(FORM_MODEL_KEY, form);
 		redirectAttributes.addFlashAttribute(ERRORS_MODEL_KEYS, errors);
 		if (errors.hasErrors()) {
-			return "redirect:/frenches/new?error";
+			RedirectView redirectView = new RedirectView("new?error");
+			redirectView.setHosts(new String[]{ request.getHeader("X-FORWARDED-HOST")});
+			return redirectView;
 		}
 		French savedFrench = frenchService.create(form.toFrenchCreateRequest());
 		redirectAttributes.getFlashAttributes().clear();
 		redirectAttributes.addFlashAttribute("savedFrench", savedFrench);
 
-		return "redirect:/frenches";
+		RedirectView redirectView = new RedirectView("frenches");
+		redirectView.setHosts(new String[]{ request.getHeader("X-FORWARDED-HOST")});
+		return redirectView;
 	}
 }
